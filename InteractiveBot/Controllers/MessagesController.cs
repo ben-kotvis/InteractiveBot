@@ -6,6 +6,7 @@ using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using InteractiveBot.Model;
 
 namespace InteractiveBot
 {
@@ -26,7 +27,7 @@ namespace InteractiveBot
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());               
+                await Conversation.SendAsync(activity, () => new Dialogs.RootDialog(scope.Resolve<IHandler>()));               
                 
             }
             else

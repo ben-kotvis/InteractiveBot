@@ -14,6 +14,8 @@ using System.Globalization;
 using System.Reflection;
 using Microsoft.Bot.Connector;
 using Microsoft.WindowsAzure.Storage;
+using InteractiveBot.Model;
+using InteractiveBot.Handlers;
 
 namespace InteractiveBot
 {
@@ -52,11 +54,10 @@ namespace InteractiveBot
                     builder.RegisterWebApiFilterProvider(globalConfig);
 
                 });
-
-
-
+            
             globalConfig.DependencyResolver = new AutofacWebApiDependencyResolver(Conversation.Container);
             var containerBuilder = new ContainerBuilder();
+            containerBuilder.Register<IHandler>(icc => new QuestionAndAnswerHandler());
             containerBuilder.RegisterType<ActivityLogger>().AsImplementedInterfaces().InstancePerDependency();
             containerBuilder.Update(Conversation.Container);
         }
